@@ -1,3 +1,5 @@
+;GUI
+
 <Cabbage>
 form caption(""), size(400, 400)
 rslider bounds(4, 4, 76, 81),  range(0.01, 6, 0.4, 1, 0.01), text("Delay Time 1"), trackercolour("blue"), valuetextbox(1), channel("DelayTime"), colour("SlateGrey")
