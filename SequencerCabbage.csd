@@ -59,10 +59,10 @@ vslider bounds(548, 88, 48, 264),  range(0, 0.8, 0.3, 1, 0.01), text("Reverb"), 
 
 0dbfs   =       1
 
-opcode Reverb, a, aik													    ; Reverb UDO
+opcode Reverb, a, aik									; Reverb UDO
  aIn, iDTime, kFBRatio  xin
- aDelTap		delayr iDTime*0.2
- 				delayw	aIn + (aDelTap*kFBRatio)
+ aDelTap    delayr iDTime*0.2
+     delaywaIn + (aDelTap*kFBRatio)
  
  xout aDelTap
 endop
@@ -70,89 +70,89 @@ endop
 
 instr   1
 
-aSig diskin "pianokey.wav", 1, 0, 0                                         ; Audio signal input
+aSig diskin "insert.wav", 1, 0, 0                               			; Audio signal input
 
 
-kFBRatio		    chnget		    "FBRatio"								; feedback ratio input for reverb
+kFBRatio		chnget		    "FBRatio"				; feedback ratio input for reverb
  
- aRv		        Reverb			aSig, 0.422, kFBRatio
+ aRv		        Reverb		aSig, 0.422, kFBRatio
 
   
- kDelTime		    chnget			"DelayTime"								; Delay time inputs for each sequence
- kDelTime2	        chnget 		    "DelTime2"
+ kDelTime	        chnget		        "DelayTime"			; Delay time inputs for each sequence
+ kDelTime2	        chnget 		        "DelTime2"
  kDelTime3	        chnget			"DelTime3"
  kDelTime4	        chnget			"DelTime4"
  kDelTime5	        chnget			"DelTime5"
  kDelTime6	        chnget			"DelTime6"
  kDelTime7	        chnget			"DelTime7"
  
- kSemis				chnget			"Semitones"								; Semitone inputs for each sequence
- kSemis2			chnget			"Semitones2"
- kSemis3			chnget          "Semitones3"
- kSemis4			chnget			"Semitones4"
- kSemis5			chnget			"Semitones5"
- kSemis6			chnget			"Semitones6"
- kSemis7			chnget			"Semitones7"
+ kSemis			chnget			"Semitones"			; Semitone inputs for each sequence
+ kSemis2		chnget			"Semitones2"
+ kSemis3		chnget          	"Semitones3"
+ kSemis4		chnget			"Semitones4"
+ kSemis5		chnget			"Semitones5"
+ kSemis6		chnget			"Semitones6"
+ kSemis7		chnget			"Semitones7"
  
- kOct  				=   			kSemis 	/ 12        				    ; Coverting semitones to octaves to create a frequency for the phasor
- kOct2				=				kSemis2 / 12							
- kOct3				=				kSemis3 / 12
- kOct4				=				kSemis4 / 12
- kOct5				=				kSemis5 / 12
- kOct6				=				kSemis6 / 12
- kOct7				=				kSemis7 / 12
+ kOct  			=   			kSemis 	/ 12        		; Coverting semitones to octaves to create a frequency for the phasor
+ kOct2			=			kSemis2 / 12							
+ kOct3			=			kSemis3 / 12
+ kOct4			=			kSemis4 / 12
+ kOct5			=			kSemis5 / 12
+ kOct6			=			kSemis6 / 12
+ kOct7			=			kSemis7 / 12
  
- kRatio  		    =   			2 ^ kOct								; Warping the values to create an exponent of 2 to scale octaves
- kRatio2			=				2 ^ kOct2
- kRatio3			=				2 ^ kOct3
- kRatio4 		    =   			2 ^ kOct4
- kRatio5 		    =   			2 ^ kOct5
- kRatio6 		    =   			2 ^ kOct6
- kRatio7 		    =   			2 ^ kOct7
+ kRatio  		=   			2 ^ kOct			; Warping the values to create an exponent of 2 to scale octaves
+ kRatio2		=			2 ^ kOct2
+ kRatio3		=			2 ^ kOct3
+ kRatio4 		=   			2 ^ kOct4
+ kRatio5 		=   			2 ^ kOct5
+ kRatio6 		=   			2 ^ kOct6
+ kRatio7 		=   			2 ^ kOct7
  
  
- aPhase				phasor			(1 - kRatio) / kDelTime		            ; Phase pointer. (1 - kRat) to keep forward movement in buffer
- aBufOut			delayr			6
- aTap				deltapi			aPhase * kDelTime						; delaytime multiplied to the phasor
- 					delayw			aSig + aRv								; Pitch, Delay and reverb written
+ aPhase			phasor			(1 - kRatio) / kDelTime		; Phase pointer. (1 - kRat) to keep forward movement in buffer
+ aBufOut		delayr			6
+ aTap			deltapi			aPhase * kDelTime		; delaytime multiplied to the phasor
+ 	delayw			aSig + aRv					; Pitch, Delay and reverb written
  									
  
  
- aPhase2			phasor			(1 - kRatio2) / kDelTime2				;Tap 2
- aBufOut			delayr			6
- aTap2				deltapi			aPhase2 * kDelTime2							
- 					delayw			aSig + aRv
+ aPhase2		phasor			(1 - kRatio2) / kDelTime2	;Tap 2
+ aBufOut		delayr			6
+ aTap2			deltapi			aPhase2 * kDelTime2							
+ 	delayw			aSig + aRv
  									
  									
- aPhase3			phasor			(1 - kRatio3) / kDelTime3				;Tap 3
- aBufOut			delayr			6
- aTap3				deltapi			aPhase3 * kDelTime3							
- 					delayw			aSig + aRv
+ aPhase3		phasor			(1 - kRatio3) / kDelTime3	;Tap 3
+ aBufOut		delayr			6
+ aTap3			deltapi			aPhase3 * kDelTime3							
+ 	delayw			aSig + aRv
  										
- aPhase4			phasor			(1 - kRatio4) / kDelTime4				;Tap 4
- aBufOut			delayr			6
- aTap4				deltapi			aPhase4 * kDelTime4							
- 				    delayw			aSig + aRv
+ aPhase4		phasor			(1 - kRatio4) / kDelTime4	;Tap 4
+ aBufOut		delayr			6
+ aTap4			deltapi			aPhase4 * kDelTime4							
+ 	delayw			aSig + aRv
  										
- aPhase5			phasor			(1 - kRatio5) / kDelTime5				;Tap 5
- aBufOut			delayr			6
- aTap5				deltapi			aPhase5 * kDelTime5							
- 					delayw			aSig + aRv
+ aPhase5		phasor			(1 - kRatio5) / kDelTime5	;Tap 5
+ aBufOut		delayr			6
+ aTap5			deltapi			aPhase5 * kDelTime5							
+ 	delayw			aSig + aRv
  										
- aPhase6			phasor			(1 - kRatio6) / kDelTime6				;Tap 6
- aBufOut			delayr			6
- aTap6				deltapi			aPhase6 * kDelTime6				
- 					delayw			aSig + aRv
+ aPhase6		phasor			(1 - kRatio6) / kDelTime6	;Tap 6
+ aBufOut		delayr			6
+ aTap6			deltapi			aPhase6 * kDelTime6				
+ 	delayw			aSig + aRv
  										
- aPhase7			phasor			(1 - kRatio7) / kDelTime7				;Tap 7
- aBufOut			delayr			6
- aTap7				deltapi			aPhase7 * kDelTime7							
- 					delayw			aSig + aRv
+ aPhase7		phasor			(1 - kRatio7) / kDelTime7	;Tap 7
+ aBufOut		delayr			6
+ aTap7			deltapi			aPhase7 * kDelTime7							
+ 	delayw			aSig + aRv
 
 
-                                                   ; Weighing the 2 channels for Dry/Wet signal
- aMix					ntrpol			(aSig + aRv), (aTap + aTap2 +aTap3 + aTap4 + aTap5 + aTap6 + aTap7), chnget:k("DryWet")
-						outs			aMix, aMix                        ;Output signal
+ ; Weighing the 2 channels for Dry/Wet signal
+ aMix			ntrpol			(aSig + aRv), (aTap + aTap2 +aTap3 + aTap4 + aTap5 + aTap6 + aTap7), chnget:k("DryWet")
+	outs			aMix, aMix      ;Output signal
 endin
 
 </CsInstruments>
