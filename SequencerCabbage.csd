@@ -163,7 +163,7 @@ i 1 0 300
 
 </CsoundSynthesizer>
 <bsbPanel>
- <label>Widgets</label>
+ <label>Widgets</label>			;Widgets
  <objectName/>
  <x>100</x>
  <y>100</y>
