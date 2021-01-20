@@ -59,7 +59,7 @@ vslider bounds(548, 88, 48, 264),  range(0, 0.8, 0.3, 1, 0.01), text("Reverb"), 
 
 0dbfs   =       1
 
-opcode Reverb, a, aik									; Reverb UDO
+opcode Reverb, a, aik								; Reverb UDO
  aIn, iDTime, kFBRatio  xin
  aDelTap    delayr iDTime*0.2
      delaywaIn + (aDelTap*kFBRatio)
@@ -70,7 +70,7 @@ endop
 
 instr   1
 
-aSig diskin "insert.wav", 1, 0, 0                               			; Audio signal input
+aSig diskin "insert.wav", 1, 0, 0                               		; Audio signal input
 
 
 kFBRatio		chnget		    "FBRatio"				; feedback ratio input for reverb
