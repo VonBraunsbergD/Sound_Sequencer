@@ -1,4 +1,4 @@
-;GU
+;GUI
 
 <Cabbage>
 form caption(""), size(400, 400)
